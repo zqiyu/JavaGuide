@@ -170,8 +170,8 @@ public class IOServer {
 
 ### 2.1 NIO 简介
 
- NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了NIO框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。
- 
+ NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了 NIO 框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。
+
 NIO中的N可以理解为Non-blocking，不单纯是New。它支持面向缓冲的，基于通道的I/O操作方法。 NIO提供了与传统BIO模型中的 `Socket` 和 `ServerSocket` 相对应的 `SocketChannel` 和 `ServerSocketChannel` 两种不同的套接字通道实现,两种通道都支持阻塞和非阻塞两种模式。阻塞模式使用就像传统中的支持一样，比较简单，但是性能和可靠性都不好；非阻塞模式正好与之相反。对于低负载、低并发的应用程序，可以使用同步阻塞I/O来提升开发速率和更好的维护性；对于高负载、高并发的（网络）应用，应使用 NIO 的非阻塞模式来开发。
 
 ### 2.2 NIO的特性/NIO与IO区别
@@ -202,13 +202,13 @@ NIO 通过Channel（通道） 进行读写。
 
 通道是双向的，可读也可写，而流的读写是单向的。无论读写，通道只能和Buffer交互。因为 Buffer，通道可以异步地读写。
 
-####  4)Selectors(选择器)
+#### 4)Selector (选择器)
 
 NIO有选择器，而IO没有。
 
 选择器用于使用单个线程处理多个通道。因此，它需要较少的线程来处理这些通道。线程之间的切换对于操作系统来说是昂贵的。 因此，为了提高系统效率选择器是有用的。
 
-![一个单线程中Slector维护3个Channel的示意图](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-2/Slector.png)
+![一个单线程中Selector维护3个Channel的示意图](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-2/Slector.png)
 
 ### 2.3  NIO 读数据和写数据方式
 通常来说NIO中的所有IO都是从 Channel（通道） 开始的。
@@ -273,8 +273,7 @@ public class NIOServer {
 
               if (key.isAcceptable()) {
                 try {
-                  // (1)
-                  // 每来一个新连接，不需要创建一个线程，而是直接注册到clientSelector
+                  // (1) 每来一个新连接，不需要创建一个线程，而是直接注册到clientSelector
                   SocketChannel clientChannel = ((ServerSocketChannel) key.channel()).accept();
                   clientChannel.configureBlocking(false);
                   clientChannel.register(clientSelector, SelectionKey.OP_READ);
